@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import subprocess
 
-JOURNAL_BASE_DIR = Path.home() / "Jarvis" / "data" / "Journals"
+JOURNAL_BASE_DIR = Path(__file__).resolve().parent.parent.parent / "Jarvis_Data" / "Journals"
 
 def get_today_journal_path(dmod) -> Path:
     now = datetime.now(ZoneInfo("America/Denver")) + timedelta(days=dmod)
