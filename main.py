@@ -35,7 +35,7 @@ def main():
                 os.system('cls' if os.name == 'nt' else 'clear')
             clearcheck += 1
 
-            user_input = input("Jarvis> ").strip()
+            user_input = input(blockReveal.blockReaveal(f"{CYAN}Jarvis> {RESET}", 0)).strip()
             if not user_input:
                 continue
 
@@ -49,6 +49,7 @@ def main():
                 except Exception as e:
                     print(f"{RED}Error executing command:{RESET} {e}")
             else:
+                clearcheck -= 1
                 print(f"{YELLOW}Unknown command:{RESET} {cmd_name}")
 
         except KeyboardInterrupt:
