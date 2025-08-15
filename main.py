@@ -31,37 +31,21 @@ def main():
             else:
                 clearcheck += 1
 
-            cmd = input(blockReveal.blockReaveal(f"{CYAN}Jarvis> {RESET}", 0)).strip()
-            cmds = cmd.split()
-            firstcmd = cmds[0].lower()
-            if cmd.lower() in {"exit", "quit"}:
-                print(f"{YELLOW}Goodbye.{RESET}")
-                break
+        user_input = input("Jarvis> ").strip()
+        if not user_input:
+            continue
 
-            elif firstcmd == "w":
-                blockReveal.openType(weatherNow)
-                clearcheck -= 1
+        parts = user_input.split()
+        cmd_name, args = parts[0], parts[1:]
 
-            elif firstcmd == "dl":
-                try:
-                    secondcmd = int(cmds[1]) if len(cmds) > 1 else 0
-                except ValueError:
-                    secondcmd = 0
-
-                if "micro" in cmd.lower():
-                    today.open_today_journal(0, secondcmd)
-                else:
-                    today.open_today_journal(1, secondcmd)
-
-            elif cmd.lower() == "pl jarvis":
-                subprocess.run(["nano", "pl_jarvis.txt"])
-
-            elif cmd:
-                print(f"{GREEN}You said:{RESET} {cmd}")
-
-        except KeyboardInterrupt:
-            print(f"\n{RED}Interrupted. Exiting.{RESET}")
-            break
+        command = command_registry.get(cmd_name)
+        if command:
+            try:
+                command.execute(args)
+            except Exception as e:
+                print(f"Error: {e}")
+        else:
+            print(f"Unknown command: {cmd_name}")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
