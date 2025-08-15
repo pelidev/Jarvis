@@ -8,6 +8,7 @@ load_dotenv()
 import weatherCalls.weatherjar as weatherJar
 import sys
 
+#testing
 # ANSI color codes
 GREEN = "\033[92m"
 CYAN = "\033[96m"
