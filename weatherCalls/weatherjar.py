@@ -48,7 +48,6 @@ def getWeatherByZip(zip_code, country_code="US"):
 
 def showWeather(setZip):
     weather = getWeatherByZip(setZip)
-    print(OPENWEATHER_API_KEY)
     if not weather:
         return str("Could not get weather data.")
 

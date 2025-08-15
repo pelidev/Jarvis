@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
+from dotenv import load_dotenv
+load_dotenv()
 import os
 import config
 import sys
 import textAnimations.blockReveal as blockReveal
 from commandDictionary import command_registry
 import journalFunctions.today as today
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
 
-# ANSI color codes
 GREEN = "\033[92m"
 CYAN = "\033[96m"
 YELLOW = "\033[93m"
@@ -48,7 +46,6 @@ def main():
             if command:
                 try:
                     command.execute(args)
-                    config.clearCheck = True
                 except Exception as e:
                     print(f"{RED}Error executing command:{RESET} {e}")
             else:

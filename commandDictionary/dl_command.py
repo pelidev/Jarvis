@@ -1,5 +1,6 @@
 from commandDictionary.command_struct import Command
 from journalFunctions import today
+import config
 
 class DlCommand(Command):
     name = "journal"
@@ -18,5 +19,7 @@ class DlCommand(Command):
             today.open_today_journal(0,dmod)
         else:
             today.open_today_journal(1,dmod)
+
+        config.clearCheck = True
 
 
