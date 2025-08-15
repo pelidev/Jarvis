@@ -47,15 +47,10 @@ def getWeatherByZip(zip_code, country_code="US"):
 
 
 def showWeather(setZip):
-    location = getLocation()
-    if not location:
-        return str("Could not determine location.")
-
-
     weather = getWeatherByZip(setZip)
+    print(OPENWEATHER_API_KEY)
     if not weather:
         return str("Could not get weather data.")
-
 
     return str(f"{weather['description']} {weather['temperature']}°F,"
           f"FL {weather['feels_like']}°F,Humidity: {weather['humidity']}%")
