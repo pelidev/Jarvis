@@ -34,7 +34,10 @@ def main():
 
             cmd = input(blockReveal.blockReaveal(f"{CYAN}Jarvis> {RESET}", 0)).strip()
             cmds = cmd.split()
-            firstcmd = cmds[0].lower()
+            try:
+                firstcmd = cmds[0].lower()
+            except IndexError:
+                continue
             if cmd.lower() in {"exit", "quit"}:
                 print(f"{YELLOW}Goodbye.{RESET}")
                 break
