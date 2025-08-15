@@ -25,15 +25,17 @@ def dljump():
 
 def main():
 
+    clearcheck = False
     blockReveal.blockReaveal(f"{GREEN}Welcome back, Matthew.{RESET}", 1)
-    clearcheck = 0
 
     while True:
         try:
             # Clear screen after the first iteration
-            if clearcheck != 0:
+            if clearcheck == True:
                 os.system('cls' if os.name == 'nt' else 'clear')
-            clearcheck += 1
+
+            else:
+                pass
 
             user_input = input(blockReveal.blockReaveal(f"{CYAN}Jarvis> {RESET}", 0)).strip()
             if not user_input:
@@ -46,6 +48,7 @@ def main():
             if command:
                 try:
                     command.execute(args)
+                    clearcheck = True
                 except Exception as e:
                     print(f"{RED}Error executing command:{RESET} {e}")
             else:
