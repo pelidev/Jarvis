@@ -2,7 +2,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import subprocess
-
+#just a reminder
 JOURNAL_BASE_DIR = Path.home() / "Jarvis" / "data" / "Journals"
 
 def get_today_journal_path(dmod) -> Path:
