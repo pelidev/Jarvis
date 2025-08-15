@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 import os
-import subprocess
-import journalFunctions.today as today
 import textAnimations.blockReveal as blockReveal
-from dotenv import load_dotenv
-load_dotenv()
-import weatherCalls.weatherjar as weatherJar
 import sys
-#different
+from commandDictionary import command_registry
+import journalFunctions.today as today
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
 # ANSI color codes
 GREEN = "\033[92m"
 CYAN = "\033[96m"
@@ -17,35 +18,45 @@ RESET = "\033[0m"
 
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
+
 def dljump():
     today.open_today_journal(1, 0)
 
+
 def main():
+
     blockReveal.blockReaveal(f"{GREEN}Welcome back, Matthew.{RESET}", 1)
-    weatherNow = str(weatherJar.showWeather(48160))
     clearcheck = 0
+
     while True:
         try:
+            # Clear screen after the first iteration
             if clearcheck != 0:
                 os.system('cls' if os.name == 'nt' else 'clear')
+            clearcheck += 1
+
+            user_input = input("Jarvis> ").strip()
+            if not user_input:
+                continue
+
+            parts = user_input.split()
+            cmd_name, args = parts[0], parts[1:]
+
+            command = command_registry.get(cmd_name)
+            if command:
+                try:
+                    command.execute(args)
+                except Exception as e:
+                    print(f"{RED}Error executing command:{RESET} {e}")
             else:
-                clearcheck += 1
+                print(f"{YELLOW}Unknown command:{RESET} {cmd_name}")
 
-        user_input = input("Jarvis> ").strip()
-        if not user_input:
-            continue
+        except KeyboardInterrupt:
+            print(f"\n{CYAN}Exiting Jarvis. Goodbye!{RESET}")
+            break
+        except Exception as e:
+            print(f"{RED}Unexpected error:{RESET} {e}")
 
-        parts = user_input.split()
-        cmd_name, args = parts[0], parts[1:]
-
-        command = command_registry.get(cmd_name)
-        if command:
-            try:
-                command.execute(args)
-            except Exception as e:
-                print(f"Error: {e}")
-        else:
-            print(f"Unknown command: {cmd_name}")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -53,6 +64,6 @@ if __name__ == "__main__":
         if arg == "dljump":
             dljump()
         else:
-            print(f"Unknown command-line argument: {arg}")
+            print(f"{YELLOW}Unknown command-line argument:{RESET} {arg}")
     else:
         main()

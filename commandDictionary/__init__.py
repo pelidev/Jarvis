@@ -7,7 +7,7 @@ command_registry = {}
 commands_dir = Path(__file__).parent
 
 for _, module_name, _ in pkgutil.iter_modules([str(commands_dir)]):
-    module = importlib.import_module(f"commands.{module_name}")
+    module = importlib.import_module(f"commandDictionary.{module_name}")
     for attr_name in dir(module):
         attr = getattr(module, attr_name)
         if isinstance(attr, type) and issubclass(attr, Command) and attr is not Command:
