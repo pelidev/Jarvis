@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import os
-import textAnimations.blockReveal as blockReveal
+import config
 import sys
+import textAnimations.blockReveal as blockReveal
 from commandDictionary import command_registry
 import journalFunctions.today as today
 from dotenv import load_dotenv
@@ -25,13 +26,12 @@ def dljump():
 
 def main():
 
-    clearcheck = False
     blockReveal.blockReaveal(f"{GREEN}Welcome back, Matthew.{RESET}", 1)
 
     while True:
         try:
             # Clear screen after the first iteration
-            if clearcheck == True:
+            if config.clearCheck:
                 os.system('cls' if os.name == 'nt' else 'clear')
 
             else:
@@ -48,11 +48,11 @@ def main():
             if command:
                 try:
                     command.execute(args)
-                    clearcheck = True
+                    config.clearCheck = True
                 except Exception as e:
                     print(f"{RED}Error executing command:{RESET} {e}")
             else:
-                clearcheck -= 1
+                config.clearCheck = False
                 print(f"{YELLOW}Unknown command:{RESET} {cmd_name}")
 
         except KeyboardInterrupt:
