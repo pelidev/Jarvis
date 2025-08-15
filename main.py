@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
-import os
-import subprocess
-import journalFunctions.today as today
-import textAnimations.blockReveal as blockReveal
 from dotenv import load_dotenv
 load_dotenv()
-import weatherCalls.weatherjar as weatherJar
+import os
+import config
 import sys
+import textAnimations.blockReveal as blockReveal
+from commandDictionary import command_registry
+import journalFunctions.today as today
 
-#testing
-# ANSI color codes
+
 GREEN = "\033[92m"
 CYAN = "\033[96m"
 YELLOW = "\033[93m"
@@ -18,54 +17,47 @@ RESET = "\033[0m"
 
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
+
 def dljump():
     today.open_today_journal(1, 0)
 
+
 def main():
+
     blockReveal.blockReaveal(f"{GREEN}Welcome back, Matthew.{RESET}", 1)
-    weatherNow = str(weatherJar.showWeather(48160))
-    clearcheck = 0
+
     while True:
         try:
-            if clearcheck != 0:
+            # Clear screen after the first iteration
+            if config.clearCheck:
                 os.system('cls' if os.name == 'nt' else 'clear')
+
             else:
-                clearcheck += 1
+                pass
 
-            cmd = input(blockReveal.blockReaveal(f"{CYAN}Jarvis> {RESET}", 0)).strip()
-            cmds = cmd.split()
-            try:
-                firstcmd = cmds[0].lower()
-            except IndexError:
+            user_input = input(blockReveal.blockReaveal(f"{CYAN}Jarvis> {RESET}", 0)).strip()
+            if not user_input:
                 continue
-            if cmd.lower() in {"exit", "quit"}:
-                print(f"{YELLOW}Goodbye.{RESET}")
-                break
 
-            elif firstcmd == "w":
-                blockReveal.openType(weatherNow)
-                clearcheck -= 1
+            parts = user_input.split()
+            cmd_name, args = parts[0], parts[1:]
 
-            elif firstcmd == "dl":
+            command = command_registry.get(cmd_name)
+            if command:
                 try:
-                    secondcmd = int(cmds[1]) if len(cmds) > 1 else 0
-                except ValueError:
-                    secondcmd = 0
-
-                if "micro" in cmd.lower():
-                    today.open_today_journal(0, secondcmd)
-                else:
-                    today.open_today_journal(1, secondcmd)
-
-            elif cmd.lower() == "pl jarvis":
-                subprocess.run(["nano", "pl_jarvis.txt"])
-
-            elif cmd:
-                print(f"{GREEN}You said:{RESET} {cmd}")
+                    command.execute(args)
+                except Exception as e:
+                    print(f"{RED}Error executing command:{RESET} {e}")
+            else:
+                config.clearCheck = False
+                print(f"{YELLOW}Unknown command:{RESET} {cmd_name}")
 
         except KeyboardInterrupt:
-            print(f"\n{RED}Interrupted. Exiting.{RESET}")
+            print(f"\n{CYAN}Exiting Jarvis. Goodbye!{RESET}")
             break
+        except Exception as e:
+            print(f"{RED}Unexpected error:{RESET} {e}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -73,6 +65,6 @@ if __name__ == "__main__":
         if arg == "dljump":
             dljump()
         else:
-            print(f"Unknown command-line argument: {arg}")
+            print(f"{YELLOW}Unknown command-line argument:{RESET} {arg}")
     else:
         main()
