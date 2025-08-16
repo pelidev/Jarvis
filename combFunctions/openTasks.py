@@ -25,7 +25,7 @@ def incompletetasks(days):
             line = line.strip()
             if line.startswith("_"):
                 if date_count_set == 0:
-                    tasks.append(now.strftime("%a %Y-%m-%d"))
+                    tasks.append(now.strftime("## %a %Y-%m-%d"))
                     date_count_set = 1
                 tasks.append(line)
             else:
@@ -44,7 +44,7 @@ def upcomingtasks(days):
         date_count_set = 0
         now = datetime.now(ZoneInfo("America/Denver")) + timedelta(days=i)
         month_folder = JOURNAL_BASE_DIR / now.strftime("%Y-%m")
-        file = month_folder / now.strftime("%Y-%m-%d.txt")
+        file = month_folder / now.strftime("## %Y-%m-%d.txt")
 
         if not file.exists():
             continue
