@@ -1,6 +1,8 @@
 from commandDictionary.command_struct import Command
 from combFunctions import openTasks
 import config
+from textAnimations.blockReveal import openType
+
 
 class past_incomplete_command(Command):
     name = "past_incomplete"
@@ -17,6 +19,6 @@ class past_incomplete_command(Command):
 
         collection = openTasks.incompletetasks(dmod)
         for task in collection:
-            print(task)
+            openType(task)
 
         config.clearCheck = False

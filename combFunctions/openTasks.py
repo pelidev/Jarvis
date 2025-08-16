@@ -25,7 +25,7 @@ def incompletetasks(days):
             line = line.strip()
             if line.startswith("_"):
                 if date_count_set == 0:
-                    tasks.append(now.strftime("%a"))
+                    tasks.append(now.strftime("%a %Y-%m-%d"))
                     date_count_set = 1
                 tasks.append(line)
             else:
