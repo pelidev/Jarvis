@@ -6,7 +6,7 @@ from textAnimations.blockReveal import openType
 
 class past_incomplete_command(Command):
     name = "upcoming"
-    aliases = ["upc, tod"]
+    aliases = ["upc", "tod"]
 
     def execute(self, args):
         dmod = 0
