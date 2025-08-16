@@ -34,6 +34,8 @@ def incompletetasks(days):
 
     return tasks
 
+########################### Upcoming Task (same thing just backwards) ########################################
+
 def upcomingtasks(days):
     days += 1
     days = range(days)
