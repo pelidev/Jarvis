@@ -1,12 +1,12 @@
 from commandDictionary.command_struct import Command
 from combFunctions import openTasks
-import config
 from textAnimations.blockReveal import openType
+import config
 
 
 class past_incomplete_command(Command):
     name = "upcoming"
-    aliases = ["upc", "tod"]
+    aliases = ["upc"]
 
     def execute(self, args):
         dmod = 0
