@@ -21,4 +21,5 @@ class past_incomplete_command(Command):
         for task in collection:
             openType(task)
 
+
         config.clearCheck = False
