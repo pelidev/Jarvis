@@ -20,4 +20,4 @@ def open_today_journal(launch, dmod):
     if launch == 0:
         subprocess.run(["micro", str(journal_path)])
     else:
-        subprocess.run(["nano", str(journal_path)])
+        subprocess.run(["nvim", str(journal_path)])

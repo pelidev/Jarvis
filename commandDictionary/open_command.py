@@ -26,6 +26,6 @@ class OpenCommand(Command):
 
         file_to_open = matches[0]
 
-        subprocess.run(["nano", str(file_to_open)])
+        subprocess.run(["nvim", str(file_to_open)])
 
         config.clearCheck = True
