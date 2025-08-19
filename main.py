@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from dotenv import load_dotenv
 load_dotenv()
+from databaseFunctions import db_initializer
+db_initializer.initDB()
 import os
 import config
 import sys
