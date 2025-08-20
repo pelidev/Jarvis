@@ -52,10 +52,10 @@ def createTable():
     childbuilder = input("Does this library need an additional table? (y/n): ").strip().lower() == "y"
 
     if childbuilder:
-        child_table_name = tableName()
+        child_table_name = f"{parent_table_name}_child"
         child_columns = columnCollection()
-        fk_column = f"{parent_table_name[:-1]}_id INTEGER NOT NULL"  # e.g., book_id
-        fk_def = f"FOREIGN KEY ({parent_table_name[:-1]}_id) REFERENCES {parent_table_name}(id)"
+        fk_column = f"parent_id INTEGER NOT NULL"  # e.g., book_id
+        fk_def = f"FOREIGN KEY (parent_id) REFERENCES {parent_table_name}(id)"
         child_columns.insert(0, fk_column)  # parent ID first
         child_columns.append(fk_def)
         sql = f"CREATE TABLE IF NOT EXISTS {child_table_name} (id INTEGER PRIMARY KEY AUTOINCREMENT, {', '.join(child_columns)})"
