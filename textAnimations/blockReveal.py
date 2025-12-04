@@ -23,7 +23,7 @@ def openType(text, delay=.01):
             sys.stdout.write(char)
             sys.stdout.flush()
             time.sleep(delay)
-    print()
+    return ""
 
 def blockReaveal(text, classCall, delay=.07):
     # Step 1: print solid block placeholders

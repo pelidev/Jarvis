@@ -1,7 +1,6 @@
 from pathlib import Path
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-import subprocess
 
 JOURNAL_BASE_DIR = Path(__file__).resolve().parent.parent.parent / "Jarvis_Data" / "Journals"
 
@@ -13,7 +12,7 @@ def get_today_journal_path(dmod) -> Path:
     file_name = now.strftime("%Y-%m-%d") + ".txt"
     return month_folder / file_name
 
-def open_today_journal(launch, dmod):
+def add_todo(dmod: int, task: str):
     journal_path = get_today_journal_path(dmod)
     if not journal_path.exists():
         journal_path.touch()
@@ -29,7 +28,23 @@ def open_today_journal(launch, dmod):
         with open(journal_path, "w") as f:
             f.write(header)
 
-    if launch == 0:
-        subprocess.run(["micro", str(journal_path)])
-    else:
-        subprocess.run(["nvim", str(journal_path)])
+    # read the file (assuming it already has header + sections)
+    with open(journal_path, "r") as f:
+        lines = f.readlines()
+
+    new_lines = []
+    in_todo = False
+
+    for line in lines:
+        new_lines.append(line)
+
+        if line.strip() == "ToDo:":
+            in_todo = True
+            continue
+
+        if in_todo and line.strip().startswith("Thoughts:"):
+            new_lines.insert(len(new_lines)-2, f"_ {task}\n")
+            in_todo = False
+
+    with open(journal_path, "w") as f:
+        f.writelines(new_lines)

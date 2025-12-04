@@ -50,7 +50,7 @@ def add_child():
     cur.execute(sql, vals)
     conn.commit()
 
-    print("Huzzah")
+    print("Entry Logged")
 
 
 

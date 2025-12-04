@@ -22,7 +22,7 @@ def columnCollection():
             break
 
         while True:
-                columntype = input(f"What will '{columnname}' store: ").strip().upper()
+                columntype = input(f"What will '{columnname}' store [TEXT, BOOLEAN, INTEGER, REAL]: ").strip().upper()
 
                 if not columntype:
                     columntype = "TEXT"  # blank input defaults
