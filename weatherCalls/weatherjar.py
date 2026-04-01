@@ -51,8 +51,8 @@ def showWeather(setZip):
     if not weather:
         return str("Could not get weather data.")
 
-    return str(f"{weather['description']} {weather['temperature']}°F,"
-          f"FL {weather['feels_like']}°F,Humidity: {weather['humidity']}%")
+    return str(f"{weather['description']} {weather['temperature']}°F\n"
+          f"FL {weather['feels_like']}°F\nHumidity: {weather['humidity']}%")
 
 # FOR FUTURE FORMATTING USEAGE
 #     print(f"Weather in {location['city']}, {location['region']} ({location['country']}):")

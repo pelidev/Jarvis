@@ -16,13 +16,11 @@ def visibleLength(s):
 
 def openType(text, delay=.01):
     for char in text:
-        if char == ",":
-            print()
-        else:
-            time.sleep(delay)
-            sys.stdout.write(char)
-            sys.stdout.flush()
-            time.sleep(delay)
+        time.sleep(delay)
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(delay)
+    print()
     return ""
 
 def blockReaveal(text, classCall, delay=.07):
