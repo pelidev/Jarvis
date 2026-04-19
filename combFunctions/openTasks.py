@@ -25,7 +25,7 @@ def incompletetasks(days):
             line = line.strip()
             if line.startswith("_"):
                 if date_count_set == 0:
-                    tasks.append(now.strftime("## %a %Y-%m-%d"))
+                    tasks.append(now.strftime("%a %Y-%m-%d"))
                     date_count_set = 1
                 tasks.append(line)
             else:
@@ -36,7 +36,7 @@ def incompletetasks(days):
 
 ########################### Upcoming Task (same thing just backwards) ########################################
 
-def upcomingtasks(days):
+def upcomingtasks(days, sfactor):
     days += 1
     days = range(days)
     tasks = []
@@ -54,9 +54,9 @@ def upcomingtasks(days):
 
         for line in lines:
             line = line.strip()
-            if line.startswith("_"):
+            if line.startswith(sfactor):
                 if date_count_set == 0:
-                    tasks.append(now.strftime("## %a %Y-%m-%d"))
+                    tasks.append(now.strftime("%a %Y-%m-%d"))
                     date_count_set = 1
                 tasks.append(line)
             else:
@@ -66,5 +66,10 @@ def upcomingtasks(days):
     return tasks
 
 
+########################### Main screen builder ########################################
 
+def livetaskupdate():
+    incomplete = len(upcomingtasks(0, "_")) - 1
+    complete = len(upcomingtasks(0, "X")) - 1
 
+    return incomplete, complete

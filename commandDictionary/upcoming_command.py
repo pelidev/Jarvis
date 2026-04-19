@@ -17,7 +17,7 @@ class past_incomplete_command(Command):
             except ValueError:
                 pass
 
-        collection = openTasks.upcomingtasks(dmod)
+        collection = openTasks.upcomingtasks(dmod, "_")
         for task in collection:
             openType(task)
 

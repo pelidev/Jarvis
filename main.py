@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 from dotenv import load_dotenv
+from combFunctions.openTasks import upcomingtasks
 load_dotenv()
 from databaseFunctions import db_initializer
 db_initializer.initDB()
+from rich.panel import Panel
+from rich.console import Console
 import os
 import config
 import sys
-import textAnimations.blockReveal as blockReveal
 from commandDictionary import command_registry
 import journalFunctions.today as today
+
 
 
 GREEN = "\033[92m"
@@ -25,19 +28,27 @@ def dljump():
 
 
 def main():
+    # Table build
+    console = Console()
+    table = Table(expand=True, style="yellow", header_style="green")
+    table.add_column("[bold]Welcome back, Matthew", justify="left", style="green")
 
-    blockReveal.blockReaveal(f"{GREEN}Welcome back, Matthew.{RESET}", 1)
+    # Statuses
+    incomplete = len(upcomingtasks(0, "_")) - 1
+    complete = len(upcomingtasks(0, "X")) - 1
+    table.add_row(f"Tasks left: {incomplete}")
+    table.add_row(f"Tasks done: {complete}")
+
+
+    # Print table to console
+    console.print(table)
 
     while True:
         try:
-            # Clear screen after the first iteration
             if config.clearCheck:
                 os.system('cls' if os.name == 'nt' else 'clear')
 
-            else:
-                pass
-
-            user_input = input(blockReveal.blockReaveal(f"{CYAN}Jarvis> {RESET}", 0)).strip()
+            user_input = input(f"{YELLOW}Jarvis> {RESET}").strip()
             if not user_input:
                 continue
 
@@ -63,10 +74,19 @@ def main():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        arg = sys.argv[1].lower()
-        if arg == "dljump":
+        cmd_name = sys.argv[1].lower()
+        extra_args = sys.argv[2:]
+
+        if cmd_name == "dljump":
             dljump()
         else:
-            print(f"{YELLOW}Unknown command-line argument:{RESET} {arg}")
+            command = command_registry.get(cmd_name)
+            if command:
+                try:
+                    command.execute(extra_args)
+                except Exception as e:
+                    print(f"{RED}Error executing command:{RESET} {e}")
+            else:
+                print(f"{YELLOW}Unknown command:{RESET} {cmd_name}")
     else:
         main()
