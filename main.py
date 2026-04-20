@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 from dotenv import load_dotenv
+from rich import box
 from combFunctions.openTasks import upcomingtasks
 load_dotenv()
 from databaseFunctions import db_initializer
 db_initializer.initDB()
-from rich.panel import Panel
+from rich.table import Table
 from rich.console import Console
 import os
 import config
 import sys
 from commandDictionary import command_registry
 import journalFunctions.today as today
+from emailFunctions import messagesjar
 
 
 
@@ -30,15 +32,32 @@ def dljump():
 def main():
     # Table build
     console = Console()
-    table = Table(expand=True, style="yellow", header_style="green")
-    table.add_column("[bold]Welcome back, Matthew", justify="left", style="green")
+    table = Table(expand=True, style="yellow", header_style="yellow", box=box.ROUNDED)
+    table.add_column("[bold]Welcome back, Matthew", justify="left", style="yellow")
 
-    # Statuses
+    # Statuses - ToDos
     incomplete = len(upcomingtasks(0, "_")) - 1
     complete = len(upcomingtasks(0, "X")) - 1
-    table.add_row(f"Tasks left: {incomplete}")
-    table.add_row(f"Tasks done: {complete}")
 
+    if incomplete < 0:
+        incomplete = 0
+
+    if complete < 0:
+        complete = 0
+
+    if incomplete == 0 and complete == 0:
+        table.add_row("No tasks scheduled for today.")
+
+    else:
+        table.add_row(f"Tasks left: {incomplete}")
+        table.add_row(f"Tasks done: {complete}")
+
+    # Statuses - Messages
+    messages = messagesjar.mjson_Loader()
+    if messages["messages"]:
+        table.add_row(f"{len(messages['messages'])} New messages.")
+    else:
+        table.add_row("No new messages.")
 
     # Print table to console
     console.print(table)

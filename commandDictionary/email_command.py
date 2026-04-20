@@ -2,8 +2,9 @@ from commandDictionary.command_struct import Command
 from emailFunctions import emailjar
 from textAnimations.blockReveal import openType
 import config
+import os
 
-TO = "op.matthew@icloud.com"
+TO = os.getenv("SEND_TO_EMAIL")
 
 class EmailCommand(Command):
     name = "email"

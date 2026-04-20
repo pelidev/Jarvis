@@ -23,7 +23,7 @@ def open_today_journal(launch, dmod):
             f"|  Daily Log {now.strftime('%m/%d/%y')}  |\n"
             "+----------------------+\n\n"
             "ToDo:\n"
-            "_ \n\n"
+            "\n\n"
             "Thoughts:\n\n"
         )
         with open(journal_path, "w") as f:

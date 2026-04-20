@@ -22,7 +22,7 @@ def add_todo(dmod: int, task: str):
             f"|  Daily Log {now.strftime('%m/%d/%y')}  |\n"
             "+----------------------+\n\n"
             "ToDo:\n"
-            "_ \n\n"
+            "\n\n"
             "Thoughts:\n\n"
         )
         with open(journal_path, "w") as f:

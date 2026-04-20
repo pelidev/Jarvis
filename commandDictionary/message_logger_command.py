@@ -1,11 +1,12 @@
 from commandDictionary.command_struct import Command
-from journalFunctions import add_todo
-import config
+from emailFunctions import messagesjar
 
 class MessageLoggerCommand(Command):
     name = "Message Logger"
     aliases = ["smslog"]
 
     def execute(self, args):
-        task = " ".join(args) if args else "Blank text fired."
-        add_todo.add_todo(0, task)
+        sms = " ".join(args) if args else "Blank text fired."
+        messages = messagesjar.mjson_Loader()
+        messages["messages"].append(sms)
+        messagesjar.mjson_Writer(messages)

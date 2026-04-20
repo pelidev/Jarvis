@@ -5,13 +5,17 @@ from combFunctions import openTasks
 PUSHCUT_URL = os.getenv('CURRENT_WIDGET_SECRET')
 
 def send_UPC():
-    input1 = openTasks.upcomingtasks(0)
+    input1 = openTasks.upcomingtasks(0, "_")
     content = "UPC"
     inputs = {}
     payload = {}
     payload["content"] = content
-    for i, task in enumerate(input1):
-        inputs[f"input{i}"] = task
+
+    if input1:
+        for i, task in enumerate(input1):
+            inputs[f"input{i}"] = task
+    else:
+        inputs["input0"] = "No tasks scheduled."
 
     payload["inputs"] = inputs
 
