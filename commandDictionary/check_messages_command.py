@@ -1,5 +1,6 @@
 from emailFunctions import messagesjar
 from commandDictionary.command_struct import Command
+import config
 
 
 class CheckMessagesCommand(Command):
@@ -8,6 +9,7 @@ class CheckMessagesCommand(Command):
 
     def execute(self, args):
         messagesjar.check_Messages()
+        config.clearCheck = False
 
 
 
